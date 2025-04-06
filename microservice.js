@@ -5,14 +5,19 @@ const port = 3000; // Define the port number
 // Middleware to parse JSON requests
 app.use(express.json());
 
+// Root route
+app.get("/", (req, res) => {
+  res.send(
+    "Welcome to the Calculator Microservice! Use /add, /subtract, /multiply, or /divide with num1 and num2 query params."
+  );
+});
+
 // Addition endpoint
 app.get("/add", (req, res) => {
-  const { num1, num2 } = req.query; // Extract query parameters
-  // Validate inputs to ensure they are numbers
+  const { num1, num2 } = req.query;
   if (!num1 || !num2 || isNaN(num1) || isNaN(num2)) {
     return res.status(400).json({ error: "Invalid input parameters" });
   }
-  // Perform addition and return the result
   res.json({ result: parseFloat(num1) + parseFloat(num2) });
 });
 
@@ -22,7 +27,6 @@ app.get("/subtract", (req, res) => {
   if (!num1 || !num2 || isNaN(num1) || isNaN(num2)) {
     return res.status(400).json({ error: "Invalid input parameters" });
   }
-  // Perform subtraction and return the result
   res.json({ result: parseFloat(num1) - parseFloat(num2) });
 });
 
@@ -32,7 +36,6 @@ app.get("/multiply", (req, res) => {
   if (!num1 || !num2 || isNaN(num1) || isNaN(num2)) {
     return res.status(400).json({ error: "Invalid input parameters" });
   }
-  // Perform multiplication and return the result
   res.json({ result: parseFloat(num1) * parseFloat(num2) });
 });
 
@@ -42,11 +45,9 @@ app.get("/divide", (req, res) => {
   if (!num1 || !num2 || isNaN(num1) || isNaN(num2)) {
     return res.status(400).json({ error: "Invalid input parameters" });
   }
-  // Prevent division by zero
   if (parseFloat(num2) === 0) {
     return res.status(400).json({ error: "Cannot divide by zero" });
   }
-  // Perform division and return the result
   res.json({ result: parseFloat(num1) / parseFloat(num2) });
 });
 
